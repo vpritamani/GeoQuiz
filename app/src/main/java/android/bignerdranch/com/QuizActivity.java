@@ -40,6 +40,7 @@ public class QuizActivity extends AppCompatActivity {
     // Helper method - receives input of what to display, then displays the toast at the top of the screen
     private void showToastAtTop(int toDisplay){
         Toast toast = Toast.makeText(QuizActivity.this, toDisplay, Toast.LENGTH_SHORT);
+        // yOffset set to 200 so the toast is below the purple 'title bar'
         toast.setGravity(Gravity.TOP,0,200);
         toast.show();
     }
