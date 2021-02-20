@@ -35,12 +35,18 @@ public class QuizActivity extends AppCompatActivity {
     };
 
     private int mCurrentIndex = 0;
+    boolean[] questionAnswered = new boolean[mQuestionBank.length];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_main);
+
+        for(int i = 0; i < mQuestionBank.length; i++){
+            // at the start, none of the question have been answered yet
+            questionAnswered[i] = false;
+        }
 
         if(savedInstanceState != null){
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
@@ -60,14 +66,18 @@ public class QuizActivity extends AppCompatActivity {
         mTrueButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v){
-                checkAnswer(true);
+                if(questionAnswered[mCurrentIndex] == false) { // if question hasn't been answer then check
+                    checkAnswer(true);
+                }
             }
         });
         mFalseButton = (Button) findViewById(R.id.false_button);
         mFalseButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v){
-                checkAnswer(false);
+                if(questionAnswered[mCurrentIndex] == false) { // if question hasn't been answer then check
+                    checkAnswer(false);
+                }
             }
         });
 
@@ -140,6 +150,9 @@ public class QuizActivity extends AppCompatActivity {
 
     private void checkAnswer(boolean userPressedTrue){
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+
+        // when checkAnswer has been called, dont allow another answer
+        questionAnswered[mCurrentIndex] = true;
 
         int messageResId = 0;
 
