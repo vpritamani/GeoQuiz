@@ -36,6 +36,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private int mCurrentIndex = 0;
     boolean[] questionAnswered = new boolean[mQuestionBank.length];
+    int correctAnswers = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_main);
 
-        for(int i = 0; i < mQuestionBank.length; i++){
+        for(int i = 0; i < questionAnswered.length; i++){
             // at the start, none of the question have been answered yet
             questionAnswered[i] = false;
         }
@@ -157,6 +158,8 @@ public class QuizActivity extends AppCompatActivity {
         int messageResId = 0;
 
         if(userPressedTrue == answerIsTrue){
+            // correct answers variable goes up 1 with a correct answer
+            correctAnswers++;
             messageResId = R.string.correct_toast;
         }
         else{
@@ -164,6 +167,30 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         showToast(messageResId);
+
+        if(allQuestionsAnswered()){
+            // find percentage using logic, then show the toast with the percentage score at the bottom of the screen
+            // final percentage will be an int instead of double so it looks better
+            // if the goal is to show as a double with decimal points, the line below my current setup is how I would do that
+            int percentage = (int) (100.0 * (double) correctAnswers / (double) questionAnswered.length);
+            // double percentage = 100.0 * (double) correctAnswers / (double) questionAnswered.length;
+            Toast toast = Toast.makeText(QuizActivity.this, percentage + "%", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.BOTTOM,0,0);
+            toast.show();
+        }
+    }
+
+    private boolean allQuestionsAnswered(){
+        boolean toReturn = true;
+
+        // if one or more of the questions haven't been answered, return false
+        for(int i = 0; i < questionAnswered.length; i++){
+            if(questionAnswered[i] == false){
+                toReturn = false;
+            }
+        }
+
+        return toReturn;
     }
 
     // Helper method - receives input of what to display, then displays the toast at the top of the screen
