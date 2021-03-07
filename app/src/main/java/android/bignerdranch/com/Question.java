@@ -3,7 +3,6 @@ package android.bignerdranch.com;
 class Question {
     private int mTextResId;
     private boolean mAnswerTrue;
-    private boolean mIsCheated;
 
     public Question(int textResId, boolean answerTrue){
         mTextResId = textResId;
@@ -25,14 +24,5 @@ class Question {
     public void setAnswerTrue(boolean answerTrue) {
         mAnswerTrue = answerTrue;
     }
-
-    public boolean getIfCheated(){
-        return mIsCheated;
-    }
-
-    public void setCheated(boolean cheatedOrNot){
-        mIsCheated = cheatedOrNot;
-    }
-
 
 }
