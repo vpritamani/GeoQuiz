@@ -25,5 +25,4 @@ class Question {
         mAnswerTrue = answerTrue;
     }
 
-
 }
